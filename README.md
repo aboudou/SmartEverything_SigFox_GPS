@@ -10,8 +10,8 @@ Example code showing of to send any datatype - 12 bytes max - (in this example, 
 ## Why don't I use official SmartEverything libraries ?
 Note : you can find them here : https://github.com/ameltech/
 
-- GPS official library is sometimes unable to parse NMEA frames. It can read altitude, number of locked satellites, but sometimes lacks latitude and longitude.
-- SigFox official library can only send to SigFox network an array of char. If it's OK  to send "Hello" messages, it's rather limited when you want to send any datatype. Moreover, this library fails to send message smaller than three caracters.
+- Amel Technology's GPS official library is sometimes unable to parse NMEA frames. It can read altitude, number of locked satellites, but sometimes lacks latitude and longitude.
+- Amel Technology's SigFox official library can only send to SigFox network an array of char. If it's OK  to send "Hello" messages, it's rather limited when you want to send any other datatype. Moreover, this library fails to send message smaller than three characters.
 
 
 ## How is the data encoded ?
