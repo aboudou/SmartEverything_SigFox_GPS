@@ -65,7 +65,7 @@ int   altitude  = 0;
 
 // Set to 1 to get debug messages to console
 // If you set if to 1, you'll have to connect to the serial console to allow the program to run
-#define DEBUG 0
+#define DEBUG 1
 
 void setup() {
 
@@ -200,7 +200,8 @@ bool sigfoxSend(const void* data, uint8_t len) {
   SigFox.print('S');
   SigFox.print('F');
   SigFox.print('=');
-  for(uint8_t i = 0; i < len; ++i) {
+  //0-1 == 255 --> (0-1) > len
+  for(uint8_t i = len-1; i < len; --i) {
     if (bytes[i] < 16) {SigFox.print("0");}
     SigFox.print(bytes[i], HEX);
   }
@@ -213,7 +214,7 @@ bool sigfoxSend(const void* data, uint8_t len) {
     SerialUSB.print('S');
     SerialUSB.print('F');
     SerialUSB.print('=');
-    for(uint8_t i = 0; i < len; ++i) {
+    for(uint8_t i = len-1; i < len; --i) {
       if (bytes[i] < 16) {SerialUSB.print("0");}
       SerialUSB.print(bytes[i], HEX);
     }

@@ -36,6 +36,18 @@ The following SigFox frame 25472d427f6ac43fdc000000 is
 </pre>
 
 
+##Decode the data on the Sigfox cloud
+
+Edit your [Device Type](https://backend.sigfox.com/devicetype/:id/edit), and set the _Display Type_ to `Custom`
+
+Then set the custom configuration to 
+
+```
+alt::uint:32 lng::float:32 lat::float:32
+```
+
+The Sigfox cloud will automatically parse the received frames & display the associated alt, lat & lng.
+
 ## What can I find in this repository ?
 - __sigfox_gps__ : the Arduino sketch + TinyGPS library.
 - __decode.php__ : example code to show how to decode sigfox data sent by the Arduino sketch.
