@@ -65,7 +65,7 @@ int   altitude  = 0;
 
 // Set to 1 to get debug messages to console
 // If you set if to 1, you'll have to connect to the serial console to allow the program to run
-#define DEBUG 1
+#define DEBUG 0
 
 void setup() {
 
