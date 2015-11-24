@@ -2,7 +2,7 @@
     /*
      * The following code shows how to decode data (in this case, GPS
      * coordinates, see  "sigfox_gps" Arduino sketch for more information),
-     *and display the results.
+     * and display the results.
      *
      * Official repository for this code :
      *   https://github.com/aboudou/SmartEverything_SigFox_GPS
@@ -38,21 +38,42 @@
 
     // Data received by SigFox backend
     // This data represents 12 bytes, in hexadecimal format (two char per byte)
-    $data = "25472d427f6ac43fdc000000";
+    $data = "000000923fc46152422d46e6";
 
-    // Bytes from 1 to 4 are latitude value, in float format
-    $binarydata32 = pack('H*',substr($data, 0, 8));
-    $latitude = unpack("f", $binarydata32);
-
-    // Bytes from 5 to 8 are longitude value, in float format
-    $binarydata32 = pack('H*',substr($data, 8, 8));
-    $longitude = unpack("f", $binarydata32);
-
-    // Bytes from 9 to 12 are altitude value, in integer (32 bits) value
-    $binarydata32 = pack('H*',substr($data, 16, 8));
+    // Bytes from 1 to 4 are altitude value, in 32 bits integer format, 
+    //   bytes in reverse order
+    $binarydata32 = pack('H*',reverseBytes(substr($data, 0, 8)));
     $altitude = unpack("V", $binarydata32);
 
-    echo 'latitude  : ' . $latitude[1]  . "\r\n";
-    echo 'longitude : ' . $longitude[1] . "\r\n";
+    // Bytes from 5 to 8 are longitude value, in float format, bytes in
+    //   reverse order
+    $binarydata32 = pack('H*',reverseBytes(substr($data, 8, 8)));
+    $longitude = unpack("f", $binarydata32);
+
+    // Bytes from 9 to 12 are latitude value, in float value, bytes in 
+    //   reverse order
+    $binarydata32 = pack('H*',reverseBytes(substr($data, 16, 8)));
+    $latitude = unpack("f", $binarydata32);
+
     echo 'altitude  : ' . $altitude[1]  . "\r\n";
+    echo 'longitude : ' . $longitude[1] . "\r\n";
+    echo 'latitude  : ' . $latitude[1]  . "\r\n";
+
+    // Reverse bytes as they come in the reverse order from SigFox network
+    function reverseBytes($input) {
+        $result = '';
+        // first byte
+        $result .= substr($input, 6, 2);
+
+        // second byte
+        $result .= substr($input, 4, 2);
+
+        // third byte
+        $result .= substr($input, 2, 2);
+
+        // fourth byte
+        $result .= substr($input, 0, 2);
+
+        return $result;
+    }
 ?>

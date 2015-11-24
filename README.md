@@ -21,18 +21,21 @@ SigFox data frame is limited to 12 bytes max. The data we send to SigFox network
 - longitude, float datatype, 4 bytes,
 - altitude, integer datatype, 4 bytes (SmartEverything prototyping board uses an ARM Cortex M0, which is a 32 bits MCU).
 
-All the bytes of these data are concatenated, into an hexadecimal encoded string. Example :
+All the bytes of these data are concatenated in the reverse order, into an hexadecimal encoded string. Example :
 <pre>
 - float value                : 1.5345
 - bytes values               : 37 71 45 66
-- hexadecimal representation : 25 47 2D 42
+- reversed bytes values      : 66 45 71 37
+- hexadecimal representation : 42 2D 47 25
 </pre>
 
-The following SigFox frame 25472d427f6ac43fdc000000 is
+As the byte order is reversed, the data is reversed too. In the struct, we have the following order : latitude, longitude, altitude. In the data frame sent to SigFox, we have the following order : altitude, longitude, latitude.
+
+The following SigFox frame 000000923fc46152422d46e6 is
 <pre>
-- 25472d42 : hexadecimal value of latitude,  43.319477081299
-- 7f6ac43f : hexadecimal value of longitude, 1.534500002861
-- dc000000 : hexadecimal value of latitude,  220
+- 00000092 : hexadecimal value of altitude, in reverse order   : 146
+- 3fc46152 : hexadecimal value of longitude, in reverser order : 1.5342199802399
+- 422d46e6 : hexadecimal value of latitude, in reverse order   : 43.319236755371
 </pre>
 
 
@@ -40,7 +43,7 @@ The following SigFox frame 25472d427f6ac43fdc000000 is
 
 Edit your [Device Type](https://backend.sigfox.com/devicetype/:id/edit), and set the _Display Type_ to `Custom`
 
-Then set the custom configuration to 
+Then set the custom configuration to
 
 ```
 alt::uint:32 lng::float:32 lat::float:32
